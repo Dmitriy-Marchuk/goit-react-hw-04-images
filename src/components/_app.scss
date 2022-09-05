@@ -1,0 +1,12 @@
+@import '../styles/common/variables';
+
+.App {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 16px;
+    padding-bottom: 24px;
+}
+
+.title {
+    margin: 20px 0 15px 0;
+}
