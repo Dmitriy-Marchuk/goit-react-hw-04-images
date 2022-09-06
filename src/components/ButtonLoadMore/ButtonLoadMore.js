@@ -1,4 +1,5 @@
 import './_buttonLoadMore.scss';
+import PropTypes from 'prop-types';
 
 const ButtonLoadMore = ({ onClick }) => {
   return (
@@ -9,3 +10,7 @@ const ButtonLoadMore = ({ onClick }) => {
 };
 
 export default ButtonLoadMore;
+
+ButtonLoadMore.propTypes = {
+  onClick: PropTypes.func.isRequired,
+};

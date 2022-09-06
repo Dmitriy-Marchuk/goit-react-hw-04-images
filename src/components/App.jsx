@@ -4,10 +4,11 @@ import {Searchbar} from './Searchbar/Searchbar';
 import { ToastContainer } from 'react-toastify';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ImageGallery from './ImageGallery/ImageGallery';
+import {ImageGallery} from './ImageGallery/ImageGallery';
 import getFetchCollection from "../services/getApi";
 import ButtonLoadMore from './ButtonLoadMore/ButtonLoadMore';
 import { Loader } from './Loader/Loader';
+import Modal from './Modal/Modal';
 
 export default class App extends Component {
   state = {
@@ -17,6 +18,7 @@ export default class App extends Component {
     collection: [],
     error: null,
     totalHits: null,
+    showModal: false,
   };
 
   componentDidUpdate(prevProps, prevState) {  
@@ -52,7 +54,6 @@ export default class App extends Component {
 
   onSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
     const value = e.target.elements.searchBarInput.value;
     if (value.trim() === '') {
       return toast.error(`Wrong request! Write something!`);
@@ -60,18 +61,20 @@ export default class App extends Component {
     if (value.trim() === this.state.searchName.trim()) {
       return toast.warning(`You have already entered this query, with name "${value}"!`);
     }
+
     this.setState({
       collection: [],
       searchName: value,
       currentPage: 1,
       totalHits: null,
+      showModal: false,
     });
     e.target.reset();
   };
 
 
   render() {
-    const { collection, loading, currentPage, totalHits } = this.state;
+    const { collection, loading, currentPage, totalHits, showModal } = this.state;
     const totalPages = totalHits / 12;
       return (
         <div className='App'> 
@@ -84,3 +87,4 @@ export default class App extends Component {
   );
   }
 };
+
