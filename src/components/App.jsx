@@ -2,6 +2,8 @@ import { Component } from 'react';
 import './_app.scss';
 import {Searchbar} from './Searchbar/Searchbar';
 import { ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import ImageGallery from './ImageGallery/ImageGallery';
 import getFetchCollection from "../services/getApi";
 import ButtonLoadMore from './ButtonLoadMore/ButtonLoadMore';
@@ -26,8 +28,9 @@ export default class App extends Component {
 
       getFetchCollection({ searchName, currentPage })
         .then(data => { 
-          this.setState(prevState =>
+          this.setState((prevState) =>
           ({
+            loading: false,
             collection: [...prevState.collection, ...data.hits],
             totalHits: data.totalHits,
           })
@@ -45,12 +48,18 @@ export default class App extends Component {
     this.setState(prevState => ({
       currentPage: prevState.currentPage +1,
     }))
-    console.log(this.state.currentPage);
   }
 
   onSubmit = e => {
     e.preventDefault();
+    console.log(this.state);
     const value = e.target.elements.searchBarInput.value;
+    if (value.trim() === '') {
+      return toast.error(`Wrong request! Write something!`);
+    }
+    if (value.trim() === this.state.searchName.trim()) {
+      return toast.warning(`You have already entered this query, with name "${value}"!`);
+    }
     this.setState({
       collection: [],
       searchName: value,
@@ -64,13 +73,11 @@ export default class App extends Component {
   render() {
     const { collection, loading, currentPage, totalHits } = this.state;
     const totalPages = totalHits / 12;
-    console.log(currentPage);
       return (
         <div className='App'> 
           <Searchbar onSubmit={this.onSubmit} searchName={this.searchName} />
           <ImageGallery collection={collection} />
           {loading && <Loader/>}
-
           {totalPages > currentPage && <ButtonLoadMore onClick={this.loadMore} />}
           <ToastContainer autoClose={2000} />
         </div>
