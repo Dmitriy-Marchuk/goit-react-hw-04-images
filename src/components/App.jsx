@@ -8,7 +8,6 @@ import {ImageGallery} from './ImageGallery/ImageGallery';
 import getFetchCollection from "../services/getApi";
 import ButtonLoadMore from './ButtonLoadMore/ButtonLoadMore';
 import { Loader } from './Loader/Loader';
-import Modal from './Modal/Modal';
 
 export default class App extends Component {
   state = {
@@ -74,7 +73,7 @@ export default class App extends Component {
 
 
   render() {
-    const { collection, loading, currentPage, totalHits, showModal } = this.state;
+    const { collection, loading, currentPage, totalHits } = this.state;
     const totalPages = totalHits / 12;
       return (
         <div className='App'> 
